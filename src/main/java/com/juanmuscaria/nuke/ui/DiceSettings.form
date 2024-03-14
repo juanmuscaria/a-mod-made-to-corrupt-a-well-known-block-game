@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.juanmuscaria.nuke.ui.DiceSettings">
+  <grid id="27dc6" binding="root" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="527" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="8f8b6" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="7095a" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="West"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="e56d6" class="javax.swing.JButton" binding="load">
+                <constraints/>
+                <properties>
+                  <text value="Import"/>
+                  <toolTipText value="Imports engine settings from Clipboard"/>
+                </properties>
+              </component>
+              <component id="26a65" class="javax.swing.JButton" binding="exportButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <text value="Export"/>
+                  <toolTipText value="Exports engine settings to Clipboard"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="4ee79" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="East"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="5d11b" class="javax.swing.JButton" binding="saveAndStartButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <text value="Save and Start"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="fa379" layout-manager="GridBagLayout">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none" title-justification="2" title-position="2"/>
+        <children>
+          <scrollpane id="96722">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <horizontalScrollBarPolicy value="31"/>
+              <verticalScrollBarPolicy value="20"/>
+            </properties>
+            <border type="bevel-lowered" title="Dice Settings" title-justification="2" title-position="2"/>
+            <children>
+              <grid id="95574" binding="diceSettings" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints/>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

@@ -1,0 +1,66 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+}
+
+group = 'com.juanmuscaria'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "neoforged"
+        url = "https://maven.neoforged.net/releases"
+    }
+    maven {
+        name = "fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        name = "minecraft"
+        url = "https://libraries.minecraft.net"
+    }
+}
+
+dependencies {
+    //noinspection VulnerableLibrariesLocal launcher wrapper uses some nasty old libraries, launcher should have them patched however
+    compileOnly 'net.minecraft:launchwrapper:1.12'
+    compileOnly "cpw.mods:modlauncher:2.1.5"
+    compileOnly "org.apache.logging.log4j:log4j-api:2.20.0"
+    compileOnly "net.fabricmc:fabric-loader:0.15.7"
+    compileOnly "org.spongepowered:mixin:0.8.5"
+
+    implementation ('io.github.vincenzopalazzo:material-ui-swing:1.1.4') {
+        exclude(group: 'org.swinglabs')
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes([
+                "TweakClass"            : "com.juanmuscaria.nuke.launch.LaunchWrapperEntrypoint",
+                "TweakOrder"            : Integer.MIN_VALUE,
+                "Specification-Title"   : "CorruptMyGame",
+                "Specification-Vendor"  : "juanmuscaria",
+                "Specification-Version" : 1,
+                "Implementation-Title"  : "I_WILL_DESTROY_YOUR_GAME",
+                "Implementation-Vendor" : "juanmuscaria",
+                "Implementation-Version": archiveVersion.get()
+        ])
+    }
+}
+
+build {
+    dependsOn(shadowJar)
+}
+
+shadowJar {
+    exclude('META-INF/versions/**')
+    archiveClassifier.set('')
+}
+
+jar.enabled = false

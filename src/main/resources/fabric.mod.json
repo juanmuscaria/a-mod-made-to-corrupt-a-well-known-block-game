@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "corrupt-my-game",
+  "name": "Corrupt My Game",
+  "description": "Self contained nuclear device",
+  "version": "0.0",
+  "authors": [
+    "juanmuscaria"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "",
+    "issues": ""
+  },
+  "license": "???",
+  "environment": "*",
+  "mixins": [{
+    "config": "fake-mixin-config.json"
+  }]
+}

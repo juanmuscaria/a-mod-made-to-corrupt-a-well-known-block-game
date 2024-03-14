@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "com.juanmuscaria.nuke.dev.null",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "com.juanmuscaria.nuke.launch.MixinBasedFabricEntrypoint",
+  "mixins": [
+  ],
+  "refmap": "fakeRef.json"
+}
