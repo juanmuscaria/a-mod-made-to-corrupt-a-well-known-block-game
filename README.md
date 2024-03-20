@@ -9,7 +9,7 @@ DO NOT use this mod alongside your normal minecraft save.
 
 ## Supported platforms
 
-* LaunchWrapper: Can run on *any* minecraft version being bootstrapped by LaunchWrapper, used by forge 1.4.5 up to 1.12.2
+* LaunchWrapper: Can run on *any* minecraft version being bootstrapped by LaunchWrapper, used by forge 1.6.4 up to 1.12.2
 * ModLauncher: Same as above, any minecraft version, used by (neo)forge from 1.13 up to latest.
 
 This mod is not really a minecraft mod, so it has no version restrictions and should work on any loader as long 
