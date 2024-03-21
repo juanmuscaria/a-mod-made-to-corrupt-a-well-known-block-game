@@ -7,7 +7,7 @@ is CORRUPTING your game and may and WILL lead to save corruption and data loss!
 DO NOT use this mod alongside your normal minecraft save.
 
 
-## Supported platforms
+[]## Supported platforms
 
 * LaunchWrapper: Can run on *any* minecraft version being bootstrapped by LaunchWrapper, used by forge 1.6.4 up to 1.12.2
 * ModLauncher: Same as above, any minecraft version, used by (neo)forge from 1.13 up to latest.
@@ -32,3 +32,5 @@ JVM corruption will cause all values used by java to be scrambled,
 meaning you cannot reproduce the same corruption effects sometimes,
 it tries to be deterministic, but at that point the JVM cannot be trusted with coherent logic.
 
+## Showcase
+[https://youtu.be/yR8p0Cj8mlY](https://youtu.be/yR8p0Cj8mlY)
