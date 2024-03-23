@@ -7,7 +7,7 @@ is CORRUPTING your game and may and WILL lead to save corruption and data loss!
 DO NOT use this mod alongside your normal minecraft save.
 
 
-[]## Supported platforms
+## Supported platforms
 
 * LaunchWrapper: Can run on *any* minecraft version being bootstrapped by LaunchWrapper, used by forge 1.6.4 up to 1.12.2
 * ModLauncher: Same as above, any minecraft version, used by (neo)forge from 1.13 up to latest.
@@ -31,6 +31,19 @@ which means you can create, save and share your configuration with friends and e
 JVM corruption will cause all values used by java to be scrambled,
 meaning you cannot reproduce the same corruption effects sometimes,
 it tries to be deterministic, but at that point the JVM cannot be trusted with coherent logic.
+
+## How to use
+
+When you launch the game, you'll have the ability to configure, import, and export engine settings. These settings persist between game restarts, allowing you to export and save them later.
+
+Your game may not launch successfully on the first try, and not all seeds may work. You'll need to experiment with different seeds and adjust the chances for methods to be corrupted through trial and error.
+
+The "Detonate the JVM" button will start the JVM Corruptor, which destroys the JVM in real-time.
+
+## Download
+
+* [Modrinth](https://modrinth.com/mod/a-mod-made-to-corrupt-a-well-known-block-game/versions)
+* [GitHub](https://github.com/juanmuscaria/a-mod-made-to-corrupt-a-well-known-block-game/releases)
 
 ## Showcase
 [https://youtu.be/yR8p0Cj8mlY](https://youtu.be/yR8p0Cj8mlY)
