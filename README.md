@@ -44,6 +44,7 @@ The "Detonate the JVM" button will start the JVM Corruptor, which destroys the J
 
 * [Modrinth](https://modrinth.com/mod/a-mod-made-to-corrupt-a-well-known-block-game/versions)
 * [GitHub](https://github.com/juanmuscaria/a-mod-made-to-corrupt-a-well-known-block-game/releases)
+* [CurseForge](https://www.curseforge.com/minecraft/mc-mods/a-mod-made-to-corrupt-a-well-known-block-game)
 
 ## Showcase
 [https://youtu.be/yR8p0Cj8mlY](https://youtu.be/yR8p0Cj8mlY)
