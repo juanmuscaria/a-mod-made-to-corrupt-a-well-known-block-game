@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.logging.Level;
 
-public class Log4jLogger implements LoggerDelegate {
+public class Log4jLogger implements LoggerAdapter {
     private final Logger logger;
 
     public Log4jLogger(Logger logger) {

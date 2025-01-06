@@ -3,10 +3,8 @@ package com.juanmuscaria.nuke.logging;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
-public class OutStreamLogger implements LoggerDelegate {
+public class OutStreamLogger implements LoggerAdapter {
     private final PrintStream logger;
     private final String loggerName;
     private final Level defaultLevel;

@@ -3,7 +3,7 @@ package com.juanmuscaria.nuke.launch;
 
 import com.juanmuscaria.nuke.ChaosEngine;
 import com.juanmuscaria.nuke.logging.Log4jLogger;
-import com.juanmuscaria.nuke.logging.LoggerDelegate;
+import com.juanmuscaria.nuke.logging.LoggerAdapter;
 import com.juanmuscaria.nuke.logging.OutStreamLogger;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +20,9 @@ import java.util.logging.Level;
 // TODO: Figure out how to get access to all minecraft classes
 // Perhaps we could hack into mixin and steal class nodes after they are mixed
 // Then just make a small check like launch wrapper to see if they belong to minecraft
-// It's not like we have to care about being compatible with other mods here anyways LOL
+// It's not like we have to care about being compatible with other mods here anyways
 public class MixinBasedFabricEntrypoint implements IMixinConfigPlugin, Platform {
-    private final LoggerDelegate logger = makeTheLogger();
+    private final LoggerAdapter logger = makeTheLogger();
     private final Path mcHome = FabricLoader.getInstance().getGameDir();
     private ChaosEngine engine;
 
@@ -65,12 +65,12 @@ public class MixinBasedFabricEntrypoint implements IMixinConfigPlugin, Platform 
     }
 
     @Override
-    public LoggerDelegate logger() {
+    public LoggerAdapter logger() {
         return logger;
     }
 
     @Override
-    public Path mcHome() {
+    public Path gameDir() {
         return mcHome;
     }
 
@@ -79,7 +79,7 @@ public class MixinBasedFabricEntrypoint implements IMixinConfigPlugin, Platform 
         return engine;
     }
 
-    private static LoggerDelegate makeTheLogger() {
+    private static LoggerAdapter makeTheLogger() {
         try {
             return new Log4jLogger(LogManager.getLogger("ChaosEngine"));
         } catch (Throwable ignored) {

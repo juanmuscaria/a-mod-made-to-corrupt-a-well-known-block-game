@@ -1,7 +1,7 @@
 package com.juanmuscaria.nuke.ui;
 
 import com.juanmuscaria.nuke.Dice;
-import com.juanmuscaria.nuke.logging.LoggerDelegate;
+import com.juanmuscaria.nuke.logging.LoggerAdapter;
 import com.juanmuscaria.nuke.ui.component.NumberTextField;
 import com.juanmuscaria.nuke.ui.component.ScrollablePane;
 
@@ -13,8 +13,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 public class DiceSettings extends JFrame {
     private static final Dice DEFAULTS = new Dice();
     private final Dice dice;
-    private final LoggerDelegate logger;
+    private static final SecureRandom random = new SecureRandom();
     private JPanel root;
     private JButton load;
     private JButton saveAndStartButton;
@@ -30,9 +30,8 @@ public class DiceSettings extends JFrame {
     private JPanel diceSettings;
     public CountDownLatch continueLatch = new CountDownLatch(1);
 
-    public DiceSettings(Dice dice, LoggerDelegate logger) {
+    public DiceSettings(Dice dice, LoggerAdapter logger) {
         this.dice = dice;
-        this.logger = logger;
         $$$setupUI$$$();
         setTitle("ChaosEngine Configuration");
         add(root);
@@ -74,7 +73,7 @@ public class DiceSettings extends JFrame {
     public void addDiceOptions() {
         addOptions("Seed", "Randomization seed used to corrupt the game, leave it blank to generate a new seed.",
             () -> makeNumberField(Long.MIN_VALUE, Long.MAX_VALUE, dice.seed,
-                () -> new Random().nextLong() ^ System.currentTimeMillis(),
+                random::nextLong,
                 seed -> dice.seed = seed));
         addOptions("Chance to delete a method", "1 in N chance that a method will be chosen to be deleted! Currently only void methods are affected.",
             () -> makeNumberField(2, 5000, dice.corruptClassDeleteMethod, () -> DEFAULTS.corruptClassDeleteMethod, value -> dice.corruptClassDeleteMethod = value));

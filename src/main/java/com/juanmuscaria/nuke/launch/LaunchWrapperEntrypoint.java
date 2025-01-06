@@ -2,7 +2,7 @@ package com.juanmuscaria.nuke.launch;
 
 import com.juanmuscaria.nuke.ChaosEngine;
 import com.juanmuscaria.nuke.logging.Log4jLogger;
-import com.juanmuscaria.nuke.logging.LoggerDelegate;
+import com.juanmuscaria.nuke.logging.LoggerAdapter;
 import com.juanmuscaria.nuke.logging.OutStreamLogger;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class LaunchWrapperEntrypoint implements ITweaker, Platform {
-    private final LoggerDelegate logger = makeTheLogger();
+    private final LoggerAdapter logger = makeTheLogger();
     private Path mcHome;
     private ChaosEngine engine;
 
@@ -45,12 +45,12 @@ public class LaunchWrapperEntrypoint implements ITweaker, Platform {
     }
 
     @Override
-    public LoggerDelegate logger() {
+    public LoggerAdapter logger() {
         return logger;
     }
 
     @Override
-    public Path mcHome() {
+    public Path gameDir() {
         return mcHome;
     }
 
@@ -59,7 +59,7 @@ public class LaunchWrapperEntrypoint implements ITweaker, Platform {
         return engine;
     }
 
-    private static LoggerDelegate makeTheLogger() {
+    private static LoggerAdapter makeTheLogger() {
         try {
             return new Log4jLogger(LogManager.getLogger("ChaosEngine"));
         } catch (Throwable ignored) {

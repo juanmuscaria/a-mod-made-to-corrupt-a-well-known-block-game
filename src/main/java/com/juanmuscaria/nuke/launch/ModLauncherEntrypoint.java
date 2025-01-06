@@ -2,7 +2,7 @@ package com.juanmuscaria.nuke.launch;
 
 import com.juanmuscaria.nuke.ChaosEngine;
 import com.juanmuscaria.nuke.logging.Log4jLogger;
-import com.juanmuscaria.nuke.logging.LoggerDelegate;
+import com.juanmuscaria.nuke.logging.LoggerAdapter;
 import cpw.mods.modlauncher.api.*;
 import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.tree.ClassNode;
@@ -13,8 +13,8 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class ModLauncherEntrypoint implements ITransformationService, ITransformer<ClassNode>, Platform {
-    private final LoggerDelegate logger = new Log4jLogger(LogManager.getLogger("ChaosEngine"));
-    private Path mcHome;
+    private final LoggerAdapter logger = new Log4jLogger(LogManager.getLogger("ChaosEngine"));
+    private Path gameDir;
     private ChaosEngine engine;
 
     @Override
@@ -25,7 +25,7 @@ public class ModLauncherEntrypoint implements ITransformationService, ITransform
     @Override
     public void initialize(IEnvironment env) {
         register();
-        mcHome = env.getProperty(IEnvironment.Keys.GAMEDIR.get()).get();
+        gameDir = env.getProperty(IEnvironment.Keys.GAMEDIR.get()).get();
         engine = new ChaosEngine(this);
         engine.primeTheExplosives();
     }
@@ -73,13 +73,13 @@ public class ModLauncherEntrypoint implements ITransformationService, ITransform
     }
 
     @Override
-    public LoggerDelegate logger() {
+    public LoggerAdapter logger() {
         return logger;
     }
 
     @Override
-    public Path mcHome() {
-        return mcHome;
+    public Path gameDir() {
+        return gameDir;
     }
 
     @Override

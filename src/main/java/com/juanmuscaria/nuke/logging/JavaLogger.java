@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-public class JavaLogger implements LoggerDelegate {
+public class JavaLogger implements LoggerAdapter {
     private final Logger logger;
 
     public JavaLogger(Logger logger) {

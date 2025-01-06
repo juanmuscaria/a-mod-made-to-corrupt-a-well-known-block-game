@@ -1,9 +1,10 @@
 package com.juanmuscaria.nuke;
 
 import com.juanmuscaria.nuke.launch.Platform;
-import com.juanmuscaria.nuke.logging.LoggerDelegate;
+import com.juanmuscaria.nuke.logging.LoggerAdapter;
 import com.juanmuscaria.nuke.ui.Detonate;
 import com.juanmuscaria.nuke.ui.DiceSettings;
+import com.juanmuscaria.nuke.ui.Events;
 import com.juanmuscaria.nuke.ui.UITheme;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -27,10 +28,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-//TODO: STOP USING SWING STUFF OUTSIDE THE SWING THREAD
-//TODO: Stop using JOptionPane and make a custom dialog window, JOptionPane is ugly and buggy
 //TODO: Cleanup this code
 //TODO: Current way Platform is implemented is ugly, refactor it
+//TODO: Multi-language support?
+//TODO: Revamp out of box user experience (see github issues)
 //TODO: Stop wasting time on silly projects
 public class ChaosEngine {
     private static final boolean userIsAwareOfTheDangers = Boolean.getBoolean("chaos-engine.ImAwareThisModWillDESTROYMyGame");
@@ -41,7 +42,7 @@ public class ChaosEngine {
     private static final Boolean realTrue = Boolean.TRUE;
     private static final List<String> mixUp = new ArrayList<>();
     private final Platform platform;
-    private final LoggerDelegate logger;
+    private final LoggerAdapter logger;
     private Dice dice = new Dice();
 
     public ChaosEngine(Platform platform) {
@@ -55,10 +56,11 @@ public class ChaosEngine {
             "This mod WILL cause save corruption and make the game UTTERLY BROKEN, you may and WILL lose data! Are you really sure?",
             "THIS IS YOUR LAST WARNING! PROCEEDING WITH THIS MOD WILL CORRUPT YOUR GAME! Are you REALLY sure?"
         };
-        UITheme.apply("material-dark", logger);
+
+        Events.invokeAndAwait(() -> UITheme.apply("material-dark", logger));
+        Path diceFile = platform.gameDir().resolve("chaos-engine.xml");
 
         if (!GraphicsEnvironment.isHeadless() && !userIsAwareOfTheDangers) {
-
             for (String message : scareAwayTheUser) {
                 if (JOptionPane.showConfirmDialog(null, message, "WARNING WARNING WARNING",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
@@ -75,6 +77,14 @@ public class ChaosEngine {
                 logger.warn(message);
             }
             logger.info("If you want to proceed, start the server with -Dchaos-engine.ImAwareThisModWillDESTROYMyGame=true");
+            if (!Files.exists(diceFile)) {
+                try {
+                    this.dice.saveToStream(Files.newOutputStream(diceFile));
+                } catch (Exception e) {
+                    logger.error("Unable to save ChaosEngine data, too bad.");
+                }
+            }
+            $$__PANIC__$$();
         }
 
         logger.error(" ");
@@ -89,7 +99,6 @@ public class ChaosEngine {
             logger.error("# It was not possible to get theUnsafe, some features will not be available #");
         }
 
-        Path diceFile = platform.mcHome().resolve("chaos-engine.xml");
         if (Files.exists(diceFile)) {
             try {
                 this.dice = Dice.fromStream(Files.newInputStream(diceFile));
@@ -99,21 +108,26 @@ public class ChaosEngine {
         }
 
         if (!GraphicsEnvironment.isHeadless()) {
-            DiceSettings settings = new DiceSettings(dice, logger);
-            settings.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    logger.info("User asked to exit");
-                    $$__PANIC__$$();
-                }
+            var settings = Events.invokeAndAwait(() -> {
+                var window = new DiceSettings(dice, logger);
+                window.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        logger.info("User asked to exit");
+                        $$__PANIC__$$();
+                    }
+                });
+                window.setLocationRelativeTo(null);
+                window.setVisible(true);
+                return window;
             });
-            settings.setLocationRelativeTo(null);
-            settings.setVisible(true);
+
             try {
                 settings.continueLatch.await();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
             settings.dispose();
         }
 
@@ -126,10 +140,12 @@ public class ChaosEngine {
         logger.info("Using dice {0}", dice);
 
         if (!GraphicsEnvironment.isHeadless()) {
-            Detonate detonate = new Detonate(this);
-            detonate.setLocationRelativeTo(null);
-            detonate.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            detonate.setVisible(true);
+          Events.invokeAndAwait(() -> {
+              Detonate detonate = new Detonate(this);
+              detonate.setLocationRelativeTo(null);
+              detonate.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+              detonate.setVisible(true);
+          });
         }
     }
 
@@ -255,7 +271,7 @@ public class ChaosEngine {
                 }
             }
         } catch (Exception e) {
-            logger.error("Unable to corrupt {0}, maybe it was partially corrupted, who knows",node.name,  e);
+            logger.error("Unable to corrupt {0}, maybe it was partially corrupted, who knows",node.name, e);
         }
     }
 

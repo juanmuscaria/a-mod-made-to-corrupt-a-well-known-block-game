@@ -1,2 +1,2 @@
 rootProject.name = 'corrupt-my-game'
-
+include("dummy")

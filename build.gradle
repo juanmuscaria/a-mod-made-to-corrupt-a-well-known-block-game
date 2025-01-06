@@ -4,10 +4,15 @@ plugins {
 }
 
 group = 'com.juanmuscaria'
-version = '1.0.0'
+version = '1.1.0'
 
 repositories {
     mavenCentral()
+    maven {
+        name = "juanmuscaria"
+        url = "https://github.com/juanmuscaria/maven/raw/master"
+        metadataSources.ignoreGradleMetadataRedirection()
+    }
     maven {
         name = "neoforged"
         url = "https://maven.neoforged.net/releases"
@@ -22,20 +27,45 @@ repositories {
     }
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 dependencies {
+    annotationProcessor 'com.github.bsideup.jabel:jabel-javac-plugin:0.4.2'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
     //noinspection VulnerableLibrariesLocal launcher wrapper uses some nasty old libraries, launcher should have them patched however
     compileOnly 'net.minecraft:launchwrapper:1.12'
     compileOnly "cpw.mods:modlauncher:2.1.5"
     compileOnly "org.apache.logging.log4j:log4j-api:2.20.0"
     compileOnly "net.fabricmc:fabric-loader:0.15.7"
     compileOnly "org.spongepowered:mixin:0.8.5"
+    compileOnly project(":dummy")
 
-    implementation ('io.github.vincenzopalazzo:material-ui-swing:1.1.4') {
-        exclude(group: 'org.swinglabs')
+    implementation 'com.formdev:flatlaf:3.4.1'
+    implementation 'com.juanmuscaria:autumn-messages:1.1-SNAPSHOT'
+    implementation 'com.juanmuscaria:autumn-resources:1.1-SNAPSHOT'
+}
+configure([tasks.compileJava]) {
+    sourceCompatibility = 17 // for the IDE support
+    options.release = 8
+
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
+compileTestJava {
+    sourceCompatibility = targetCompatibility = 8
+}
+
 test {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
     useJUnitPlatform()
 }
 
